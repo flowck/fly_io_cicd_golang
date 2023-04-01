@@ -5,7 +5,13 @@ two environments at [Fly.io](https://fly.io) after running a series of checks to
 
 ## Goals
 
-- [ ] Continuous Integration using GitHub actions
-- [ ] Tagging
+- [x] Continuous Integration using GitHub actions
+- [x] Tagging
 - [ ] Continuous Deployment to a staging environment from main
 - [ ] Manual deployment to production from a released tag
+
+## Environments at Fly.io
+
+- Production
+- Staging
+

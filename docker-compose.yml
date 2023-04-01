@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  # App for testing the Dockerfile, available when ran with: docker-compose --profile app-demo up
+  app-demo:
+    build: ./
+    profiles:
+      - app-demo
+    links:
+      - postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./.env
+    ports:
+      - "9000:8080"
+
+  # Development app with livereload using reflex
   app:
     build: ./misc/tools/reflex
     container_name: movies_service

@@ -13,3 +13,11 @@ jobs:
     needs: ci
     secrets:
       PAT: ${{ secrets.PAT }}
+
+  deploy-staging:
+    uses: ./.github/workflows/deploy-staging.yml
+    needs: ci
+    secrets:
+      PAT: ${{ secrets.PAT }}
+    inputs:
+      version:
