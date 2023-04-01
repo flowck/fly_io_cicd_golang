@@ -81,8 +81,8 @@ tasks:
 
   deploy:stg:
     cmds:
-      - fly deploy --build-arg VERSION={{.CLI_ARGS}} --config ./misc/fly/fly.stg.toml --remote-only
+      - flyctl deploy --build-arg VERSION={{.CLI_ARGS}} --config ./misc/fly/fly.stg.toml --remote-only
 
   deploy:prd:
     cmds:
-      - fly deploy --build-arg VERSION={{.CLI_ARGS}} --config ./misc/fly/fly.prd.toml  --remote-only
+      - flyctl deploy --build-arg VERSION={{.CLI_ARGS}} --config ./misc/fly/fly.prd.toml  --remote-only
