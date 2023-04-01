@@ -8,6 +8,8 @@ on:
     secrets:
       PAT:
         required: true
+      FLY_API_TOKEN:
+        required: true
 
 jobs:
   deploy:

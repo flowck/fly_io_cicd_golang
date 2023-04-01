@@ -24,3 +24,4 @@ jobs:
     # Send repository secrets onto the deploy-staging workflow
     secrets:
       PAT: ${{ secrets.PAT }}
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
