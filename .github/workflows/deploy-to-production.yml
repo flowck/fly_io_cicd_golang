@@ -1,0 +1,24 @@
+name: deploy-production
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        description: "Tag to be deployed to production"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: refs/tags/v${{ github.event.inputs.version }}
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Production
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: task deploy:prd -- v${{ github.event.inputs.version }}

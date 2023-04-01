@@ -1,13 +1,6 @@
 name: deploy-staging
 on:
   workflow_call:
-    inputs:
-      version:
-        required: true
-        description: "version to be deployed"
-    secrets:
-      PAT:
-        required: true
 
 jobs:
   deploy:
@@ -18,10 +11,11 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
-            ref: refs/tags/v${{ github.event.inputs.version }}
+            ref: refs/tags/v$(svu current)
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
+
       - name: Deploy to Staging
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: task deploy:stg
+        run: task deploy:stg -- v$(svu current)
