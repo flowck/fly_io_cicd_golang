@@ -5,6 +5,15 @@ dotenv:
   - ./.env
 
 tasks:
+  test:all:
+    cmds:
+      - task wait-for -- 8080
+      - task test
+
+  test:
+    cmds:
+      - go test ./tests/...
+
   run:
     cmds:
       - task watch -- go run ./cmd
@@ -65,3 +74,7 @@ tasks:
   mig:create:
     cmds:
       - goose -s -dir ./misc/sql/migrations create {{.CLI_ARGS}} sql
+
+  docker:up:
+    cmds:
+      - docker compose up -d

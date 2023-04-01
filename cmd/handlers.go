@@ -28,13 +28,20 @@ func (h *Handlers) getMovies(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	if err != nil {
+		h.logger.Errorf("query to get movies error: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, `{"message": "an error occurred"}`)
+		return
+	}
+
+	if rows.Err() != nil {
+		h.logger.Errorf("rows.Err(): %v", rows.Err())
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, `{"message": "an error occurred"}`)
 		return
 	}
 
 	var movies []Movie
-
 	for rows.Next() {
 		var row Movie
 		if err = rows.Scan(&row.Id, &row.Title); err != nil {
@@ -48,6 +55,7 @@ func (h *Handlers) getMovies(w http.ResponseWriter, r *http.Request) {
 
 	response, err := json.Marshal(&movies)
 	if err != nil {
+		h.logger.Errorf("could not marshal response: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, `{"message": "an error occurred"}`)
 		return
@@ -56,6 +64,7 @@ func (h *Handlers) getMovies(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write([]byte(fmt.Sprintf(`{"data": %s}`, response)))
 	if err != nil {
+		h.logger.Errorf("could not write the response: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, `{"message": "an error occurred"}`)
 		return
